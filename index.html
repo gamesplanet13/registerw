@@ -121,7 +121,7 @@
 
   <div id="upgradeBlock" class="hidden">
     <div class="note">
-      <b>Step 1:</b> Upload 5-star Feedback Screenshot<br>
+      <b>Step 1:</b> Upload *5-star rating + positive feedback screenshot*<br>
       <input type="file" id="screenshot" accept="image/*">
       <div class="file-preview" id="filePreview2"></div>
       <b>Step 2:</b> Click to Upgrade Warranty<br>
@@ -165,11 +165,11 @@ document.getElementById("regBtn").onclick = function () {
   document.getElementById("regResult").innerHTML = `
     ✅ 30 Days Warranty Registered / ३० दिन की वारंटी पंजीकृत हो गई है<br>
     Valid Till: <b>${warrantyTill}</b><br><br>
-    अब अगर आप 90 दिनों की वारंटी चाहते हैं:<br>
-    - 5-स्टार रेटिंग दें<br>
-    - उसका स्क्रीनशॉट अपलोड करें<br>
-    - नीचे दिए गए बटन पर क्लिक करें<br><br>
-    <b>व्हाट्सएप पर भेजते समय चालान फोटो attach करना न भूलें।</b>
+    अगर आप 90 दिनों की वारंटी चाहते हैं:<br>
+    ⭐ 5-star rating + positive feedback दें<br>
+    📸 उसका screenshot अपलोड करें<br>
+    ⬇️ नीचे दिए गए बटन पर क्लिक करें<br><br>
+    <b>WhatsApp पर भेजते समय चालान की फोटो ज़रूर attach करें।</b>
   `;
   document.getElementById("regResult").classList.remove("hidden");
   document.getElementById("upgradeBlock").classList.remove("hidden");
@@ -196,7 +196,7 @@ document.getElementById("upgBtn").onclick = function () {
   const ssfile = document.getElementById("screenshot").files[0];
 
   if (!name || !/^[0-9]{10}$/.test(mobile) || !platform || !ordernum || !ssfile) {
-    alert("Please fill all fields and upload feedback screenshot.\nसभी विवरण भरें और 5-स्टार स्क्रीनशॉट जोड़ें।");
+    alert("Please fill all fields and upload feedback screenshot.\nसभी विवरण भरें और 5-star स्क्रीनशॉट जोड़ें।");
     return;
   }
 
@@ -205,12 +205,12 @@ document.getElementById("upgBtn").onclick = function () {
 
   document.getElementById("upgResult").innerHTML =
     `✅ Warranty upgraded to 90 Days / ९० दिनों की वारंटी बढ़ा दी गई है<br>Valid Till: <b>${warrantyTill}</b><br>
-     <b>WhatsApp पर भेजते समय 5-star feedback screenshot ज़रूर attach करें।</b>`;
+     <b>WhatsApp पर भेजते समय ⭐ 5-star rating + positive feedback screenshot ज़रूर attach करें।</b>`;
   document.getElementById("upgResult").classList.remove("hidden");
 
   const msg = `🟢 *Warranty Upgraded to 90 Days*\n-------------------------\n` +
               `Name: ${name}\nMobile: ${mobile}\nPlatform: ${platform}\nOrder No.: ${ordernum}\n` +
-              `Upgraded: ${today}\nValid Till: ${warrantyTill}\n\n*Feedback screenshot attached below.*`;
+              `Upgraded: ${today}\nValid Till: ${warrantyTill}\n\n*5-star rating + positive feedback screenshot attached below.*`;
 
   const url = `https://wa.me/917983624797?text=${formatForWhatsApp(msg)}`;
   setTimeout(() => { window.open(url, "_blank"); }, 800);
