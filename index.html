@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Games Planet | Software Warranty Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Font for Hindi -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans Devanagari', 'Segoe UI', Arial, sans-serif;
+      background: #f5f5f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: 32px auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 16px #0001;
+      padding: 28px 24px 22px 24px;
+    }
+    h2 {
+      text-align: center;
+      color: #22714f;
+      margin-bottom: 18px;
+    }
+    label {
+      font-weight: 500;
+      display: block;
+      margin: 12px 0 3px 2px;
+    }
+    select, input[type="text"], input[type="file"] {
+      width: 100%;
+      padding: 10px 9px;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      background: #22714f;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 7px;
+      padding: 11px 0;
+      cursor: pointer;
+      margin: 7px 0 13px 0;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    .success {
+      color: #216d2e;
+      font-weight: 600;
+      background: #eafce6;
+      border-left: 5px solid #22714f;
+      padding: 14px;
+      border-radius: 9px;
+      margin-bottom: 16px;
+    }
+    .note {
+      background: #fffbe7;
+      border-left: 4px solid #e9ae24;
+      color: #947200;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 17px;
+    }
+    .file-preview {
+      font-size: 0.93em;
+      color: #555;
+      margin-top: -3px;
+      margin-bottom: 7px;
+    }
+    .hidden {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .container {
+        margin: 8px;
+        padding: 12px 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Software Warranty Registration / सॉफ़्टवेयर वारंटी पंजीकरण</h2>
+  <form id="warrantyForm" autocomplete="off">
+    <label for="cname">Customer Name* / ग्राहक का नाम*</label>
+    <input type="text" id="cname" maxlength="40" required>
+
+    <label for="mobile">Mobile Number* / मोबाइल नंबर*</label>
+    <input type="text" id="mobile" maxlength="10" pattern="[0-9]{10}" required>
+
+    <label for="platform">Platform* / प्लेटफ़ॉर्म*</label>
+    <select id="platform" required>
+      <option value="">Choose Platform / प्लेटफ़ॉर्म चुनें</option>
+      <option>Amazon</option>
+      <option>Flipkart</option>
+      <option>Games Planet Website</option>
+    </select>
+
+    <label for="ordernum">Order Number* / ऑर्डर नंबर*</label>
+    <input type="text" id="ordernum" maxlength="24" required>
+
+    <label for="invsnap">Attach Invoice Screenshot (image)* / चालान छवि जोड़ें*</label>
+    <input type="file" id="invsnap" accept="image/*" required>
+    <div class="file-preview" id="filePreview"></div>
+
+    <button type="button" id="regBtn">Register Warranty / वारंटी पंजीकृत करें</button>
+  </form>
+
+  <div id="regResult" class="success hidden"></div>
+
+  <div id="upgradeBlock" class="hidden">
+    <div class="note">
+      <b>Step 1:</b> Upload 5-star Feedback Screenshot<br>
+      <input type="file" id="screenshot" accept="image/*">
+      <div class="file-preview" id="filePreview2"></div>
+      <b>Step 2:</b> Click to Upgrade Warranty<br>
+      <button type="button" id="upgBtn" disabled>Upgrade to 90 Days / 90 दिनों की वारंटी बढ़ाएं</button>
+    </div>
+    <div id="upgResult" class="success hidden"></div>
+  </div>
+</div>
+
+<script>
+function getDateAfter(days) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+function encodeWhatsApp(str) {
+  return encodeURIComponent(str).replace(/%0A/g, '%0a');
+}
+
+document.getElementById("invsnap").addEventListener("change", function () {
+  const file = this.files[0];
+  document.getElementById("filePreview").innerText = file ? "Attached: " + file.name : "";
+});
+
+document.getElementById("regBtn").onclick = function () {
+  const name = document.getElementById("cname").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const platform = document.getElementById("platform").value;
+  const ordernum = document.getElementById("ordernum").value.trim();
+  const invfile = document.getElementById("invsnap").files[0];
+
+  if (!name || !/^[0-9]{10}$/.test(mobile) || !platform || !ordernum || !invfile) {
+    alert("Please fill all fields correctly.\nकृपया सभी जानकारी सही भरें और चालान जोड़ें।");
+    return;
+  }
+
+  const warrantyTill = getDateAfter(30);
+  const today = new Date().toLocaleDateString('en-IN');
+
+  document.getElementById("regResult").innerHTML = `
+    ✅ 30 Days Warranty Registered / ३० दिन की वारंटी पंजीकृत हो गई है<br>
+    Valid Till: <b>${warrantyTill}</b><br><br>
+    अब अगर आप 90 दिनों की वारंटी चाहते हैं:<br>
+    - 5-स्टार रेटिंग दें<br>
+    - उसका स्क्रीनशॉट अपलोड करें<br>
+    - नीचे दिए गए बटन पर क्लिक करें<br><br>
+    <b>व्हाट्सएप पर भेजते समय चालान फोटो attach करना न भूलें।</b>
+  `;
+  document.getElementById("regResult").classList.remove("hidden");
+  document.getElementById("upgradeBlock").classList.remove("hidden");
+
+  const msg = `🟢 *Software Warranty Registered*%0A-------------------------%0A` +
+              `Name: ${name}%0AMobile: ${mobile}%0APlatform: ${platform}%0AOrder No.: ${ordernum}%0A` +
+              `Registered: ${today}%0AValid Till: ${warrantyTill}%0A%0A*Invoice screenshot attached below.*`;
+
+  setTimeout(() => {
+    window.open(`https://wa.me/919783624797?text=${encodeWhatsApp(msg)}`, "_blank");
+  }, 800);
+};
+
+document.getElementById("screenshot").addEventListener("change", function () {
+  const file = this.files[0];
+  document.getElementById("filePreview2").innerText = file ? "Attached: " + file.name : "";
+  document.getElementById("upgBtn").disabled = !file;
+});
+
+document.getElementById("upgBtn").onclick = function () {
+  const name = document.getElementById("cname").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const platform = document.getElementById("platform").value;
+  const ordernum = document.getElementById("ordernum").value.trim();
+  const ssfile = document.getElementById("screenshot").files[0];
+
+  if (!name || !/^[0-9]{10}$/.test(mobile) || !platform || !ordernum || !ssfile) {
+    alert("Please fill all fields and upload feedback screenshot.\nसभी विवरण भरें और 5-स्टार स्क्रीनशॉट जोड़ें।");
+    return;
+  }
+
+  const warrantyTill = getDateAfter(90);
+  const today = new Date().toLocaleDateString('en-IN');
+
+  document.getElementById("upgResult").innerHTML =
+    `✅ Warranty upgraded to 90 Days / ९० दिनों की वारंटी बढ़ा दी गई है<br>Valid Till: <b>${warrantyTill}</b><br>
+     <b>WhatsApp पर भेजते समय 5-star feedback screenshot ज़रूर attach करें।</b>`;
+  document.getElementById("upgResult").classList.remove("hidden");
+
+  const msg = `🟢 *Warranty Upgraded to 90 Days*%0A-------------------------%0A` +
+              `Name: ${name}%0AMobile: ${mobile}%0APlatform: ${platform}%0AOrder No.: ${ordernum}%0A` +
+              `Upgraded: ${today}%0AValid Till: ${warrantyTill}%0A%0A*Feedback screenshot attached below.*`;
+
+  setTimeout(() => {
+    window.open(`https://wa.me/919783624797?text=${encodeWhatsApp(msg)}`, "_blank");
+  }, 800);
+};
+</script>
+</body>
+</html>
